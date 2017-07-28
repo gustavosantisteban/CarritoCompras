@@ -1,0 +1,173 @@
+﻿@model SeguridadWebv2.Models.CarritoViewModel
+
+@{
+    ViewBag.Title = "Carrito de Compras";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/owltemplate")
+}
+
+<h3>
+    <em>Revisar</em> su carrito:
+</h3>
+
+   <!-- *** NAVBAR END *** -->
+
+<div id="all">
+
+    <div id="content">
+        <div class="container">
+
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="#">Carrito</a>
+                    </li>
+                    <li>Index</li>
+                </ul>
+            </div>
+
+            <div class="col-md-9" id="checkout">
+
+                <div class="box">
+                        <h1>Carrito - Orden de Compra</h1>
+                        <ul class="nav nav-pills nav-justified">
+                            <li class="active">
+                                <a href="#"><i class="fa fa-eye"></i><br>Orden de Compra</a>
+                            </li>
+                        </ul>
+
+                        <div class="content">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Imagen</th>
+                                            <th>Producto</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ProductoItems)
+                                        {
+                                            <tr id="row-@item.IdCarritoItem">
+                                                <td>
+                                                    <a href="#">
+                                                        <img class="img-responsive" src="@Url.Content(item.Producto.ImagenURL)" alt="@Html.Display(item.Producto.Nombre)">
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @Html.ActionLink(item.Producto.Nombre, "Detalle", "Producto", new { id = item.ProductoID }, null)
+                                                </td>
+                                                <td>
+                                                    @item.Producto.Precio
+                                                </td>
+                                                <td id="item-count-@item.IdCarritoItem">
+                                                    @item.Contador
+                                                </td>
+                                                <td>
+                                                    @Html.ActionLink("Eliminar del Carrito", "RemoveFromCart", new { id = item.ProductoID }, new { @class = "btn btn-danger" })
+                                                </td>
+                                                <td><input type="hidden" name="carritoid" value="@item.CarritoId" /></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="5">Total</th>
+                                            <th id="cart-total">@Model.Total</th>
+                                        </tr>
+                                    </tfoot>
+                                    </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.content -->
+
+                        <div class="box-footer">
+                            <div class="pull-left">
+                                <i class="fa fa-chevron-left">@Html.ActionLink("Continue Comprando", "Index", "Home", null, new { @class = "btn btn-success" })</i>
+                            </div>
+                            <div class="pull-right">
+                                    <h3>O Page por Mercado Libre</h3>
+                                    <button name="MP-Checkout" class="orange-ar-m-sq-arall" id="btnCO" style="margin-top: 20px;" onclick="_doCheckout()"><i class="glyphicon glyphicon-credit-card"></i>Pago</button>
+                                    @*<a href="@{ }" name="MP-Checkout" class="orange-ar-m-sq-arall">Pay</a>*@
+                                    <script type="text/javascript" src="//resources.mlstatic.com/mptools/render.js"></script>
+                            </div>
+                        </div>
+                </div>
+                <!-- /.box -->
+
+
+            </div>
+            <!-- /.col-md-9 -->
+
+            <div class="col-md-3">
+
+                <div class="box" id="order-summary">
+                    <div class="box-header">
+                        <h3>Detalle de Orden de Pago</h3>
+                    </div>
+                    <p class="text-muted">El envio y los impuestos son calculados según las prendas elegidas</p>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>SubTotal Orden</td>
+                                    <th>@Model.Total</th>
+                                </tr>
+                                <tr>
+                                    <td>Precio por Envio</td>
+                                    <th>$0.00</th>
+                                </tr>
+                                <tr>
+                                    <td>Impuestos</td>
+                                    <th>$0.00</th>
+                                </tr>
+                                <tr class="total">
+                                    <td>Total</td>
+                                    <th>@Model.Total</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /.col-md-3 -->
+
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /#content -->
+</div>
+
+        <script type="text/javascript" src="//resources.mlstatic.com/mptools/render.js"></script>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+
+    <script>
+        function _doCheckout() {
+            //$.post("/MercadoPago/DoCheckout", { data: { id : $('.idesp').val() }}, function (response) {
+            //    console.log(response);
+            //    document.location.href = response.url;
+            //});
+
+            //var id = $('.idesp').val();
+            $.ajax({
+                type: "POST",
+                url: "/MercadoPago/DoCheckout",
+                data: { 'data': $('.carritoid').val() },
+                success: function (response) {
+                    console.log(response);
+                    document.location.href = response.url;
+                },
+            });
+        }
+    </script>

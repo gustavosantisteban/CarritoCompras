@@ -1,0 +1,45 @@
+﻿@model SeguridadWebv2.Models.Orden
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string statusClass = "success";
+    string statusMessage = "Se aprobo correctamente la compra!";
+    switch (Model.Status.Trim().ToLower())
+    {
+        case "approved":
+            statusClass = "success";
+            break;
+        case "pending":
+        case "in-process":
+            statusClass = "warning";
+            statusMessage = "Su pago está pendiente de aprobación";
+            break;
+        default:
+            statusClass = "danger";
+            statusMessage = "Lamentablemente algo salió mal y su pago no fue aprobado. Intente nuevamente!";
+            break;
+    }
+}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h3>Estado del Pago... </h3>
+        <div class="alert alert-@statusClass">
+            @Html.Raw(statusMessage)
+            <br />
+            <br />
+            Resumen de la Compra:
+            @if (Model != null)
+            {
+                <ul>
+                    @foreach (var orden in Model.OrdenDetalles)
+                    {
+                        <li> @orden.Orden.FechaOrden </li>
+                        <li> @orden.Orden.Usuario </li>
+                        <li> @orden.quantity </li>
+                        <li> @orden.IdCarrito </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+    <a href="@Url.Action("Dashboard", "Home")" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-circle"></span> Ir al Dashboard </a>
+</div>

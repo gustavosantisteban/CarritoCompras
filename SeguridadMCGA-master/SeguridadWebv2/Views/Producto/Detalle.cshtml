@@ -1,0 +1,27 @@
+﻿@model SeguridadWebv2.Models.Aplicacion.Producto
+
+@{
+    ViewBag.Title = "Detalle";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+<h2>Detalle Producto</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            @if (Model.ImagenURL != "")
+            {
+                <img class="img-responsive" src="@Model.ImagenURL">
+            }
+            else
+            {
+                <img class="img-responsive" src="http://placehold.it/350x150">
+
+            }
+        </div>
+        <div class="col-md-8">
+            <p class="lead">@Model.Nombre</p>
+            <p class="lead">@Html.DisplayFor(m => m.Precio)</p>
+        </div>
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-success" })
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+@if (Request.IsAuthenticated)
+{
+    <div class="col-md-12">
+        <!-- widget -->
+        <div class="widget">
+            <div class="widget-header">
+                <i class="fa fa-tasks"></i>
+                <h3>Menu del Sistema</h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+                <div class="shortcuts">
+                    @if (User.IsInRole("Admin") || User.IsInRole("AllUsuarios"))
+                    {
+                        <a href='@Url.Action("Index", "UsuariosAdmin")' class="shortcut"><i class="fa fa-user"></i><span class="shortcut-label">Usuarios</span></a>}
+                    @if (User.IsInRole("Admin") || User.IsInRole("AllGrupos"))
+                    {
+                        <a href='@Url.Action("Index", "GruposAdmin")' class="shortcut"><i class="fa fa-group"></i><span class="shortcut-label">Grupos</span></a>}
+                    @if (User.IsInRole("Admin") || User.IsInRole("AllPermisos"))
+                    {
+                        <a href='@Url.Action("Index", "AccionesAdmin")' class="shortcut"><i class="fa fa-check"></i><span class="shortcut-label">Permisos</span></a>}
+                    @if (User.IsInRole("Admin") || User.IsInRole("AllAutos"))
+                    {
+                        <a href='@Url.Action("Index", "Autos")' class="shortcut"> <i class="fa fa-taxi"></i><span class="shortcut-label">Viajes</span></a>}
+                </div>
+                <!-- /shortcuts -->
+            </div>
+            <!-- /widget-content -->
+        </div>
+        <!-- /widget -->
+    </div>
+}

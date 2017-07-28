@@ -1,0 +1,21 @@
+﻿@model SeguridadWebv2.Models.Aplicacion.Producto
+
+@{
+
+    ViewBag.Title = Model.Nombre + " Detalles";
+}
+
+<h2>@Model.Nombre</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img class="img-responsive" src="@Url.Content(Model.ImagenURL)" alt="Imagen" />
+        </div>
+        <div class="col-md-8">
+            <p class="lead">@Model.Categoria.Nombre</p>
+            <p class="lead">@Html.DisplayFor(m => m.Precio)</p>
+            @Html.ActionLink("Agregar al Carrito", "AddtoCart", new { controller = "Carrito", id = Model.IdProducto }, new { @class = "btn btn-success" })
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+﻿<div id="sidebar" class="nav-collapse">
+    <!-- sidebar menu start-->
+    <ul class="sidebar-menu" id="nav-accordion">
+        <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+        <h5 class="centered">@User.Identity.Name</h5>
+
+        <li class="sub-menu">
+            <a class="active" href="javascript:;">
+                <i class="fa fa-dashboard"></i>
+                <span>Seguridad</span>
+            </a>
+            <ul class="sub">
+                @if (Request.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("AllUsuarios"))
+                {
+                    <li>@Html.ActionLink("Usuarios", "Index", "UsuariosAdmin")</li>
+                }
+                @if (Request.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("AllGrupos"))
+                {
+                    <li>@Html.ActionLink("Grupos", "Index", "GruposAdmin")</li>
+                }
+                @if (Request.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("AllPermisos"))
+                {
+                    <li>@Html.ActionLink("Acciones", "Index", "AccionesAdmin")</li>
+                }
+            </ul>
+        </li>
+
+        <li class="sub-menu">
+            <a href="javascript:;">
+                <i class="fa fa-suitcase" ></i>
+                <span>Autos</span>
+            </a>
+            <ul class="sub">
+                @if (Request.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("AllAutos"))
+                {
+                    <li>@Html.ActionLink("Autos", "Index", "Autos")</li>
+                }
+                @if (Request.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Reportes"))
+                {
+                    <li>@Html.ActionLink("Autos", "Reportes", "Autos")</li>
+                }
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:;">
+                <i class=" fa fa-bar-chart-o"></i>
+                <span>Reportes</span>
+            </a>
+            <ul class="sub">
+                @if (Request.IsAuthenticated && User.IsInRole("Reportes"))
+                {
+                    <li>@Html.ActionLink("Pasajes", "Reportes", "Pasajes")</li>
+                    <li>@Html.ActionLink("Hoteles", "Reportes", "Hoteles")</li>
+                }
+            </ul>
+        </li>
+
+    </ul>
+    <!-- sidebar menu end-->
+</div>
+

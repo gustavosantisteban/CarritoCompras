@@ -1,0 +1,12 @@
+﻿@model IEnumerable<SeguridadWebv2.Models.Aplicacion.Categoria>
+
+<h1>Elegir Categoria</h1>
+<div class="list-group" id="categories">
+    @foreach (var cat in Model)
+    {
+
+        @Html.ActionLink(cat.Nombre, "Browse", "Home", new { id = cat.Nombre }, new { @class = "list-group-item" })
+
+    }
+</div>
+

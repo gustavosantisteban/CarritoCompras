@@ -1,0 +1,38 @@
+﻿@model SeguridadWebv2.Models.ApplicationUser
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>Usuario</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Usuario</dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+    </dl>
+</div>
+<h4>List ofGroups this user belongs to:</h4>
+@if (ViewBag.GroupNames.Count == 0)
+{
+     <hr />
+    <p>No se encontraron Grupos para este Usuario.</p>
+}
+<table class="table">
+    @foreach (var item in ViewBag.GroupNames)
+    {
+        <tr>
+            <td>
+                @item
+            </td>
+        </tr>
+    }
+</table>
+<p>
+    @Html.ActionLink("Editar", "Editar", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

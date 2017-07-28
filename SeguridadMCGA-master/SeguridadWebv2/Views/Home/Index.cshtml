@@ -1,0 +1,35 @@
+﻿@model IEnumerable<SeguridadWebv2.Models.Aplicacion.Categoria>
+
+@{
+    ViewBag.Title = "Index";
+    @Styles.Render("~/Content/sistemahome")
+}
+@*<h3>Browse Categories</h3>
+    <div class="list-group">
+        @foreach (var category in Model)
+        {
+            @Html.ActionLink(category.Nombre, "Browse", new { id = category.Nombre }, new { @class = "list-group-item" })
+        }
+    </div>*@
+
+            <div class="container-fluid">
+                <div class="row no-gutter popup-gallery">
+                    @foreach (var category in Model)
+                    {
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="@Url.Action("Browse", "Home", new { id = category.Nombre })" class="portfolio-box">
+                                <img class="img-responsive" src="@Url.Content(category.Imagen)" alt="Imagen" />
+                                <div class="portfolio-box-caption">
+                                    <div class="portfolio-box-caption-content">
+                                        <div class="project-category text-faded">
+                                            @category.Nombre
+                                        </div>
+                                        <div class="project-name">
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>

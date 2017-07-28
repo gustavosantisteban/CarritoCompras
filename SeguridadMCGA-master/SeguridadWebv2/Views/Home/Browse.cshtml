@@ -1,0 +1,33 @@
+﻿@model IEnumerable<SeguridadWebv2.Models.Aplicacion.Producto>
+
+@{
+    var category = Model.First().Categoria.Nombre;
+    ViewBag.Title = "Browse " + category;
+}
+<style>
+    .thumb {
+        margin-bottom: 30px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header"><em>@category</em></h1>
+            @foreach (var product in Model)
+            {
+                <div class="col-md-4 thumb">
+                    <a href="@Url.Action("Detalle", new { id = product.IdProducto })">
+                        @if (product.ImagenURL != null)
+                        {
+                            <img alt="@product.Nombre" src="@Url.Content(product.ImagenURL)" class="img-rounded" />
+                        }
+                    </a>
+                    <p>@product.Nombre</p>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+

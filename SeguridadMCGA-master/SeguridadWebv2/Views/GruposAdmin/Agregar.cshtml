@@ -1,0 +1,65 @@
+﻿@model SeguridadWebv2.Models.ApplicationGroup    
+@{
+    ViewBag.Title = "Agregar";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Formulario Agregar Grupo</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            <div class="control-label col-md-2">Nombre Grupo</div>
+                <div class="col-md-6 input-group">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                    <span class="input-group-addon">
+                        <span class="fa fa-group">
+                        </span>
+                    </span>
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+            </div>
+        <div class="form-group">
+            <div class="control-label col-md-2">Descripción Grupo</div>
+            <div class="col-md-6 input-group">
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <span class="fa fa-building">
+                    </span>
+                </span>
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">
+                Seleccionar Permisos para el Grupo
+            </label>
+            <div class="col-md-6">
+                @foreach (var item in (SelectList)ViewBag.RolesList)
+                {
+                    <div>
+                        <input type="checkbox" name="SelectedRoles" value="@item.Text" class="checkbox-inline" />
+                        @Html.Label(item.Text, new { @class = "control-label" })
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <input type="submit" value="Agregar" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
