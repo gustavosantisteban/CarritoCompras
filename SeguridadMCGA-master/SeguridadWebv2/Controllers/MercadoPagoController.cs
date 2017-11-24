@@ -1,4 +1,6 @@
-﻿using mercadopago;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using mercadopago;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using SeguridadWebv2.Helper;
@@ -10,7 +12,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -128,11 +133,50 @@ namespace SeguridadWebv2.Controllers
                 orden.MPRefID = mpRefID;
                 db.Entry(orden).State = EntityState.Modified;
                 db.SaveChanges();
-
+                
                 var ordenrelation = orden.OrdenDetalles.Where(x => x.IdOrden == orden.OrdenID).FirstOrDefault();
+                this.GenerarPDF(orden);
                 return View("../Carrito/Status", orden);
             };
         }
+        
+        
+        public void GenerarPDF(Orden orden)
+        {
+            var doc = new Document();
+            MemoryStream memoryStream = new MemoryStream();
+            PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
 
+            doc.Open();
+
+            doc.Add(new Paragraph(String.Format("Compra: {0}", orden.OrdenDetalles.FirstOrDefault().title)));
+            doc.Add(new Paragraph(String.Format("Orden Nro: {0}", orden.OrdenDetalles.FirstOrDefault().IdOrden)));
+            doc.Add(new Paragraph(String.Format("Usuario: {0}", orden.Usuario.Nombre + orden.Usuario.Apellido)));
+            doc.Add(new Paragraph(String.Format("Fecha: {0}", orden.FechaOrden)));
+            doc.Add(new Paragraph(String.Format("Total: {0}", orden.OrdenDetalles.FirstOrDefault().unit_price)));
+
+            writer.CloseStream = false;
+            doc.Close();
+            memoryStream.Position = 0;
+           
+            MailMessage mm = new MailMessage("finalmcga@gmail.com", orden.Usuario.Email)
+            {
+                Subject = String.Format("Su orden {0}, con fecha {1} fue registrada correctamente", orden.OrdenID, orden.FechaOrden),
+                IsBodyHtml = true,
+                Body = String.Format("Su orden por un importe de {0} con los siguientes items {1} fueron registrados correctamente", orden.OrdenDetalles.FirstOrDefault().unit_price, orden.OrdenDetalles.FirstOrDefault().quantity),
+            };
+
+            SmtpClient smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                Credentials = new NetworkCredential("finalmcga@gmail.com", "final@2017.")
+            };
+
+            mm.Attachments.Add(new Attachment(memoryStream, "ordenpago.pdf"));
+
+            smtp.Send(mm);
+        }
     }
 }

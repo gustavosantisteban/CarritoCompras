@@ -15,6 +15,7 @@ namespace SeguridadWebv2
         private GenericRepository<Producto> _productRepository;
 
 
+
         public GenericRepository<Categoria> CategoryRepository
         {
             get

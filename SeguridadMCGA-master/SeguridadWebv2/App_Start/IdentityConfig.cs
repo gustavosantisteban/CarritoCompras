@@ -153,11 +153,11 @@ namespace SeguridadWebv2.Models
         {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-            const string nombre = "William Gustavo";
-            const string apellido = "Santisteban";
+            const string nombre = "Ezequiel";
+            const string apellido = "Ellena";
             const bool estado = true;
-            const string name = "administrador@mcga.com";
-            const string password = "Mcga@123456";
+            const string name = "ezequielellena0003@gmail.com";
+            const string password = "Ezequiel@123456";
             const string roleName = "Admin";
 
             //Create Role Admin if it does not exist
@@ -174,7 +174,6 @@ namespace SeguridadWebv2.Models
                 user = new ApplicationUser { UserName = name, Email = name, Nombre = nombre, Apellido = apellido, Estado = estado, EmailConfirmed = true };
                 var result = userManager.Create(user, password);
                 result = userManager.SetLockoutEnabled(user.Id, false);
-
             }
 
             var groupManager = new GrupoManager();
@@ -202,8 +201,7 @@ namespace SeguridadWebv2.Models
                 }
             };
             PermisosUsuario.ForEach(c => db.Roles.Add(c));
-
-
+            
             var PermisosGrupo = new List<ApplicationRole> {
                 new ApplicationRole {
                     Name = "Agregar_Grupo"
@@ -222,8 +220,7 @@ namespace SeguridadWebv2.Models
                 }
             };
             PermisosGrupo.ForEach(c => db.Roles.Add(c));
-
-
+            
             var PermisosAcciones = new List<ApplicationRole> {
                 new ApplicationRole {
                     Name = "Agregar_Permiso"
@@ -243,26 +240,44 @@ namespace SeguridadWebv2.Models
             };
             PermisosUsuario.ForEach(c => db.Roles.Add(c));
 
-            var PermisosAutos = new List<ApplicationRole> {
+            var PermisosProducto = new List<ApplicationRole> {
                 new ApplicationRole {
-                    Name = "Agregar_Auto"
+                    Name = "Agregar_Producto"
                 },
                 new ApplicationRole {
-                    Name = "Editar_Auto"
+                    Name = "Editar_Producto"
                 },
                 new ApplicationRole {
-                    Name = "Detalle_Auto"
+                    Name = "Detalle_Producto"
                 },
                 new ApplicationRole {
-                    Name = "Eliminar_Auto"
+                    Name = "Eliminar_Producto"
                 },
                 new ApplicationRole {
-                    Name = "AllAutos"
+                    Name = "AllProductos"
                 }
             };
-            PermisosAutos.ForEach(c => db.Roles.Add(c));
-
-
+            PermisosProducto.ForEach(c => db.Roles.Add(c));
+            
+            var PermisosCategorias = new List<ApplicationRole> {
+                new ApplicationRole {
+                    Name = "Agregar_Categoria"
+                },
+                new ApplicationRole {
+                    Name = "Editar_Categoria"
+                },
+                new ApplicationRole {
+                    Name = "Detalle_Categoria"
+                },
+                new ApplicationRole {
+                    Name = "Eliminar_Categoria"
+                },
+                new ApplicationRole {
+                    Name = "AllCategorias"
+                }
+            };
+            PermisosCategorias.ForEach(c => db.Roles.Add(c));
+            
             var grupos = new List<ApplicationGroup> {
                 new ApplicationGroup {
                     Name = "Gestionar Usuarios",
@@ -277,9 +292,13 @@ namespace SeguridadWebv2.Models
                     Description = "Gestionar Acciones"
                 },
                 new ApplicationGroup {
-                    Name = "Gestionar Autos",
-                    Description = "Gestionar Autos"
+                    Name = "Gestionar Categorias",
+                    Description = "Gestionar Categorias"
                 },
+                new ApplicationGroup {
+                    Name = "Gestionar Productos",
+                    Description = "Gestionar Productos"
+                }
              };
             grupos.ForEach(c => db.ApplicationGroups.Add(c));
 
@@ -307,8 +326,7 @@ namespace SeguridadWebv2.Models
                 new Producto() {Nombre = "Pantalon Levis", Precio = 950M, Categoria = categoria[5], ImagenURL = "~/Content/img/pantalone1.jpg" }
             };
             productos.ForEach(c => db.Productos.Add(c));
-
-
+            
             db.SaveChanges();
        }
     }

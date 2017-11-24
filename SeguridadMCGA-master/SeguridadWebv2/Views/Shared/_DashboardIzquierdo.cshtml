@@ -28,16 +28,16 @@
         <li class="sub-menu">
             <a href="javascript:;">
                 <i class="fa fa-suitcase" ></i>
-                <span>Autos</span>
+                <span>Aplicacion</span>
             </a>
             <ul class="sub">
-                @if (Request.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("AllAutos"))
+                @if (Request.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("AllCategorias"))
                 {
-                    <li>@Html.ActionLink("Autos", "Index", "Autos")</li>
+                    <li>@Html.ActionLink("Categorias", "Index", "Categoria")</li>
                 }
                 @if (Request.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Reportes"))
                 {
-                    <li>@Html.ActionLink("Autos", "Reportes", "Autos")</li>
+                    <li>@Html.ActionLink("Productos", "Index", "Producto")</li>
                 }
             </ul>
         </li>
@@ -49,8 +49,8 @@
             <ul class="sub">
                 @if (Request.IsAuthenticated && User.IsInRole("Reportes"))
                 {
-                    <li>@Html.ActionLink("Pasajes", "Reportes", "Pasajes")</li>
-                    <li>@Html.ActionLink("Hoteles", "Reportes", "Hoteles")</li>
+                    <li>@Html.ActionLink("Productos", "Reportes", "Producto")</li>
+                    <li>@Html.ActionLink("Ventas", "Reportes", "Venta")</li>
                 }
             </ul>
         </li>

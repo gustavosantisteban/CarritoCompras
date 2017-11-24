@@ -24,9 +24,13 @@
                     @if (User.IsInRole("Admin") || User.IsInRole("AllPermisos"))
                     {
                         <a href='@Url.Action("Index", "AccionesAdmin")' class="shortcut"><i class="fa fa-check"></i><span class="shortcut-label">Permisos</span></a>}
-                    @if (User.IsInRole("Admin") || User.IsInRole("AllAutos"))
+                    @if (User.IsInRole("Admin") || User.IsInRole("AllProductos"))
                     {
-                        <a href='@Url.Action("Index", "Autos")' class="shortcut"> <i class="fa fa-taxi"></i><span class="shortcut-label">Viajes</span></a>}
+                        <a href='@Url.Action("Index", "Producto")' class="shortcut"> <i class="fa fa-list-alt"></i><span class="shortcut-label">Productos</span></a>}
+                    @if (User.IsInRole("Admin") || User.IsInRole("AllCategorias"))
+                    {
+                        <a href='@Url.Action("Index", "Categoria")' class="shortcut"> <i class="fa fa-tag"></i><span class="shortcut-label">Categorias</span></a>}
+
                 </div>
                 <!-- /shortcuts -->
             </div>
@@ -34,4 +38,17 @@
         </div>
         <!-- /widget -->
     </div>
+
+    @*@if (User.IsInRole("AllVendedor") || User.IsInRole("Vendedor"))
+    {
+        @Html.Partial("_DashboardVendedorList")
+    }
+    @if (User.IsInRole("AllCliente") || User.IsInRole("Cliente"))
+    {
+        @Html.Partial("_DashboardClienteList")
+    }*@
+    if (User.IsInRole("Admin"))
+    {
+        @Html.Partial("_DashboardAdministrador")
+    }
 }
